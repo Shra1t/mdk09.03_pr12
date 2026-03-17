@@ -1,17 +1,14 @@
 <?php
-	session_start();
 	include("./settings/connect_datebase.php");
+	$current_user_id = getAuthUserId();
 	
-	if (isset($_SESSION['user'])) {
-		if($_SESSION['user'] != -1) {
-			
-			$user_query = $mysqli->query("SELECT * FROM `users` WHERE `id` = ".$_SESSION['user']);
-			while($user_read = $user_query->fetch_row()) {
-				if($user_read[3] == 0) header("Location: user.php");
-				else if($user_read[3] == 1) header("Location: admin.php");
-			}
+	if ($current_user_id != -1) {
+		$user_query = $mysqli->query("SELECT * FROM `users` WHERE `id` = ".$current_user_id);
+		while($user_read = $user_query->fetch_row()) {
+			if($user_read[3] == 0) header("Location: user.php");
+			else if($user_read[3] == 1) header("Location: admin.php");
 		}
- 	}
+	}
 ?>
 <html>
 	<head> 

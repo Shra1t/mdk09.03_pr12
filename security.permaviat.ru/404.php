@@ -1,6 +1,6 @@
 <?php
-	session_start();
 	include("./settings/connect_datebase.php");
+	$current_user_id = getAuthUserId();
 ?>
 <!DOCTYPE HTML>
 <html>
@@ -33,26 +33,15 @@
 					</a>
 				</div>
 				<?php
-					if (isset($_SESSION['user'])) {
-						if($_SESSION['user'] != -1) {
-							echo '
-								<div class = "puncts-log">
-									<a href="login.php">
-										<div class="img-statement"></div>
-										<div class="name">Личный кабинет</div>
-									</a>
-								</div>
-							';
-						} else {
-							echo '
-								<div class = "puncts">
-									<a href="login.php">
-										<div class="img-statement"></div>
-										<div class="name">Личный кабинет</div>
-									</a>
-								</div>
-							';
-						}
+					if ($current_user_id != -1) {
+						echo '
+							<div class = "puncts-log">
+								<a href="login.php">
+									<div class="img-statement"></div>
+									<div class="name">Личный кабинет</div>
+								</a>
+							</div>
+						';
 					} else {
 						echo '
 							<div class = "puncts">
@@ -66,15 +55,14 @@
 				?>
 				
 				<?php
-					if (isset($_SESSION['user'])) {
-						if($_SESSION['user'] != -1) {
-							$user_to_query = $mysqli->query("SELECT `roll` FROM `user` WHERE `id` = ".$_SESSION['user']);
-							$user_to_read = $user_to_query->fetch_row();
-							
-							if($user_to_read[0] != 1) {
-								// Проверяем кол-во сообщений входящих
-								// получаем ID (и получаем отправленные от этого ID)
-								$message_query = $mysqli->query("SELECT COUNT(`id`) FROM `messages` WHERE `user_to` = ".$_SESSION['user']." AND `visible` = 1");
+					if ($current_user_id != -1) {
+						$user_to_query = $mysqli->query("SELECT `roll` FROM `user` WHERE `id` = ".$current_user_id);
+						$user_to_read = $user_to_query->fetch_row();
+						
+						if($user_to_read[0] != 1) {
+							// Проверяем кол-во сообщений входящих
+							// получаем ID (и получаем отправленные от этого ID)
+							$message_query = $mysqli->query("SELECT COUNT(`id`) FROM `messages` WHERE `user_to` = ".$current_user_id." AND `visible` = 1");
 								$message_read = $message_query->fetch_row();
 								
 								echo '

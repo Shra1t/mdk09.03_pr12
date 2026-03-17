@@ -1,5 +1,4 @@
 <?php
-	session_start();
 	include("../settings/connect_datebase.php");
 	
 	$login = $_POST['login'];

@@ -1,17 +1,18 @@
 <?php
-	session_start();
 	include("./settings/connect_datebase.php");
+	$current_user_id = getAuthUserId();
 	
-	if (isset($_SESSION['user'])) {
-		if($_SESSION['user'] != -1) {
-			$user_query = $mysqli->query("SELECT * FROM `users` WHERE `id` = ".$_SESSION['user']); // проверяем
-			while($user_read = $user_query->fetch_row()) {
-				if($user_read[3] == 0) header("Location: index.php");
-			}
-		} else header("Location: login.php");
- 	} else {
+	if ($current_user_id == -1) {
 		header("Location: login.php");
 		echo "Пользователя не существует";
+		exit;
+	}
+	$user_query = $mysqli->query("SELECT * FROM `users` WHERE `id` = ".$current_user_id);
+	while($user_read = $user_query->fetch_row()) {
+		if($user_read[3] == 0) {
+			header("Location: index.php");
+			exit;
+		}
 	}
 ?>
 <!DOCTYPE HTML>

@@ -1,8 +1,7 @@
-<?
-    session_start();
+<?php
 	include("../settings/connect_datebase.php");
 
-    $IdUser = $_SESSION['user'];
+	$IdUser = getAuthUserId();
     $Message = $_POST["Message"];
     $IdPost = $_POST["IdPost"];
 

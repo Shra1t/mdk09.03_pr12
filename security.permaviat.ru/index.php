@@ -1,6 +1,6 @@
 <?php
-	session_start();
 	include("./settings/connect_datebase.php");
+	$current_user_id = getAuthUserId();
 ?>
 <!DOCTYPE HTML>
 <html>
@@ -54,7 +54,7 @@
 											echo '</div>';
 
 											
-											if (isset($_SESSION['user'])) {
+											if ($current_user_id != -1) {
 												echo 
 													'<div class="messages" id="'.$read_news["id"].'">
 														<input type="text">

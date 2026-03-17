@@ -1,4 +1,4 @@
 <?php
-	session_start();
-	session_destroy();
+	include("../settings/connect_datebase.php");
+	clearAuthCookie();
 ?>
